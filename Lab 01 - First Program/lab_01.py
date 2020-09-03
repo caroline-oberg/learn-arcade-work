@@ -1,3 +1,5 @@
 print("Hi, my name is Caroline. ")
-print("double \"quote\"")
-print("some other line")
+print("I am a Junior at Simpson College.")
+print("It is hot outside today.")
+print("My favorite color is lavender.")
+print("Our lab says: \"Use four sentences and an escape code.\"")
