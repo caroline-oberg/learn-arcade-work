@@ -54,6 +54,13 @@ def main():
             print("Your thirst increases.")
             print("Your camel grows tired.")
             print("The natives continue the chase.")
+            if random.randrange(20) == 0:
+                print("You've found an oasis.")
+                print("Your canteen is now full.")
+                thirst = 0
+                canteen = 3
+
+
 
         # Ahead moderate speed.
         elif userInput.upper() == "B" :
@@ -65,6 +72,11 @@ def main():
             print("You move forward, moving a total of", miles, "miles.")
             print("Your thirst increases.")
             print("The natives continue the chase.")
+            if random.randrange(20) == 0:
+                print("You've found an oasis.")
+                print("Your canteen is now full.")
+                thirst = 0
+                canteen = 3
 
         # Drink from your canteen.
         elif userInput.upper() == "A":
