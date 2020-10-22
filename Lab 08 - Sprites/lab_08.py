@@ -160,10 +160,6 @@ class MyGame(arcade.Window):
             self.score += 1
             self.good_sound.play()
 
-        for bad_sprite in bad_hit_list:
-            bad_sprite.remove_from_sprite_lists()
-            self.score -= 1
-            self.bad_sound.play()
 
 
 def main():
