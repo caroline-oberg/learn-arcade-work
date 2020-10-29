@@ -216,14 +216,14 @@ class MyGame(arcade.Window):
                                 SCREEN_WIDTH + self.view_left,
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
-        """
+
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.coin_list)
 
-        for coin in coin_list:
-            coin_list.remove_from_coin_list()
+        for coin in coin_hit_list:
+            coin.remove_from_sprite_lists()
             self.score += 1
             self.good_sound.play()
-            """
+
 
 
 def main():
