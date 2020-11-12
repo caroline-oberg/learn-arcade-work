@@ -57,8 +57,6 @@ class MyGame(arcade.Window):
         column = x // (WIDTH + MARGIN)
         row = y // (HEIGHT + MARGIN)
 
-        print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column})")
-
         if row < ROW_COUNT and column < COLUMN_COUNT:
 
             if self.grid[row][column] == 0:
@@ -67,18 +65,43 @@ class MyGame(arcade.Window):
                 self.grid[row][column] = 0
 
         self.create_shapes_from_grid()
-    continuous_count = 0
 
-    for cell in grid:
-        cell += 1
-        grid = split_cell(cell)
+        running_total = 0
 
-            current_list_position = 0
-            if current_list_position == len(grid):
-                print("Total of", current_list_position, "cells are selected")
-    if continuous_count > 0
-        print continuous_count
+        for row in range(ROW_COUNT):
+            for column in range(COLUMN_COUNT):
 
+                if self.grid[row][column] == 1:
+                    running_total +=1
+
+        print("Total of", running_total, "cells are selected.")
+
+        for row in range(ROW_COUNT):
+            continuous_count = 0
+            running_total = 0
+            for column in range(COLUMN_COUNT):
+
+                if self.grid[row][column] == 1:
+                    running_total +=1
+                    continuous_count +=1
+                else:
+                    if continuous_count >= 3:
+                        print("There are", continuous_count, "blocks selected on", row)
+                    continuous_count = 0
+
+            print("Row", row, "has", running_total, "cells selected.")
+
+            if continuous_count >= 3:
+                print("There are", continuous_count, "blocks selected on", row)
+
+        for column in range(COLUMN_COUNT):
+            running_total = 0
+            for row in range(ROW_COUNT):
+
+                if self.grid[row][column] == 1:
+                    running_total +=1
+
+            print("Column", column, "has", running_total, "cells selected.")
 
 def main():
 
