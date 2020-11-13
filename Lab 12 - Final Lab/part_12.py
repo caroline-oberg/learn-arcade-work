@@ -1,3 +1,7 @@
+"""
+Hospital Game
+"""
+
 
 class Room:
     """This is a class that represents the rooms"""
@@ -14,12 +18,14 @@ class Room:
         self.up = up
         self.down = down
 
+
 class Item:
 
     def __init__(self, room, name, description):
         self.room = room
         self.name = name
         self.description = description
+
 
 def main():
     room_list = []
@@ -81,7 +87,13 @@ def main():
     while not done:
         print()
 
+        # Print room description
         print(room_list[current_room].description)
+        # Printing items in the room
+        for item in item_list:
+            if item.room == current_room:
+                print(item.description)
+
         userinput = input("What do you want to do? ")
 
         if userinput.lower() == "north" or userinput.lower() == "n":
