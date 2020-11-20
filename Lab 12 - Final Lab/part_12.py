@@ -31,7 +31,7 @@ def main():
     room_list = []
     item_list = []
 
-    room = Room("You are in the Waiting Room.\nThere are doors in every direction except north.", None, None, None, 4, 3, 5, 2, 1, None, None)
+    room = Room("You are in the waiting room.\nThere are doors in every direction except north.", None, None, None, 4, 3, 5, 2, 1, None, None)
     room_list.append(room)
 
     room = Room("You are now in Patient Room 100.\nThere is a door to the east", None, None, None, None, 0, None, None, None, None, None)
@@ -52,10 +52,10 @@ def main():
     room = Room("You have walked into the elevator.\n You can go up or the main hallway is to the east.", None, None, None, 5, None, None, None, None, 17, None)
     room_list.append(room)
 
-    room = Room("You walked into the old Emergency Room.\nThere is one door to the north, east and west.", 5, None, None, None, 8, None, None, 6, None, None)
+    room = Room("You walked into the old emergency room.\nThere is one door to the north, east and west.", 5, None, None, None, 8, None, None, 6, None, None)
     room_list.append(room)
 
-    room = Room("You are in the Janitors Closet.\nThere is a door to the east into the old Emergency Room.", None, None, None, None, 7, None, None, None, None, None)
+    room = Room("You are in the janitors closet.\nThere is a door to the east into the old Emergency Room.", None, None, None, None, 7, None, None, None, None, None)
     room_list.append(room)
 
     room = Room("You walked into the medical supplies closet.\nThere is one door to the west leading back to the Emergency Room.", None, None, None, None, 8, None, None, 7, None, None)
@@ -94,7 +94,9 @@ def main():
             if item.room == current_room:
                 print(item.description)
 
-        userinput = input("What do you want to do? ")
+        # User action input
+        action = input("What would you like to do? ")
+        command_words = action.split(" ")
 
         if userinput.lower() == "north" or userinput.lower() == "n":
             next_room = room_list[current_room].north
@@ -159,6 +161,43 @@ def main():
                 print ("You can't go that way.")
             else:
                 current_room = next_room
+
+        # Stealing the medicine
+        elif command_words[0] == "steal":
+            if len(command_words) > 1:
+                if command_words[1] == "medicine":
+                    if item_list[1].room == -1:
+                        print()
+                        print("You took the medicine off the counter and pocketed it, which will be useful later.")
+                    else:
+                        print("You are not in the right room for that item.")
+            else:
+                print("What would you like to steal?")
+
+        elif command_words[0] == "drop":
+            if len(command_words) > 1:
+                if command_words[1] == "medicine":
+                    if item_list[1].room == -1:
+                        print()
+                        print("You decided to drop the medicine to make room for something else.")
+                    else:
+                        print("You don't have that option.")
+            else:
+                print("What would you like to drop?")
+
+        elif command_words[0] == "use":
+            if len(command_words) > 1:
+                if command_words[1] == "medicine":
+                    if item_list[1].room == -1:
+                        print()
+                        print("You have decided to use the medicine, it cured you and prevents you from catching the virus again.")
+                    else:
+                        print("You don't have that option.")
+                else:
+                    print("That can't be used.")
+            else:
+                print("What would you like to use?")
+
 
         elif userinput.lower() == "quit" or userinput.lower() == "q":
             done = True
