@@ -5,7 +5,9 @@ Hospital Game
 
 class Room:
     """This is a class that represents the rooms"""
-    def __init__(self, description, north, northeast, northwest, southeast, east, south, southwest, west, up, down):
+    def __init__(self, description,
+                 north, northeast, northwest, southeast,
+                 east, south, southwest, west, up, down):
         self.description = description
         self.north = north
         self.northeast = northeast
@@ -31,7 +33,9 @@ def main():
     room_list = []
     item_list = []
 
-    room = Room("You are in the waiting room.\nThere are doors in every direction except north.", None, None, None, 4, 3, 5, 2, 1, None, None)
+    room = Room("You are in the waiting room.\n"
+                "There are doors in every direction except north.",
+                None, None, None, 4, 3, 5, 2, 1, None, None)
     room_list.append(room)
 
     room = Room("You are now in Patient Room 100.\nThere is a door to the east", None, None, None, None, 0, None, None, None, None, None)
@@ -61,6 +65,7 @@ def main():
     room = Room("You walked into the medical supplies closet.\nThere is one door to the west leading back to the Emergency Room.", None, None, None, None, 8, None, None, 7, None, None)
     room_list.append(room)
 
+    # Represent the current room the user is in.
     current_room = 0
 
     # Medicine (Medical Supplies 8)
@@ -109,7 +114,7 @@ def main():
 
         if userinput.lower() == "north" or userinput.lower() == "n":
             next_room = room_list[current_room].north
-            if next_room == None:
+            if next_room is None:
                 print("You can't go that way.")
             else:
                 current_room = next_room
@@ -183,6 +188,7 @@ def main():
             else:
                 print("What would you like to steal?")
 
+        # Print out the inventory
         elif command_words[0] == "inventory":
             for item in item_list:
                 if item.room == -1:
@@ -229,8 +235,9 @@ def main():
             else:
                 print("What would you like to use?")
 
-
         elif userinput.lower() == "quit" or userinput.lower() == "q":
             done = True
             print("You quit.")
+
+
 main()
