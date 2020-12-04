@@ -49,13 +49,13 @@ def main():
     room = Room("You have walked into the main hallway.\nThere is an elevator to the west and rooms to the north and south.", 0, None, None, None, None, 7, None, 9, None, None)
     room_list.append(room)
 
-    room = Room("You have walked into the elevator.\n You can go up or the main hallway is to the east.", None, None, None, 5, None, None, None, None, 17, None)
+    room = Room("You have walked into the elevator.\n You can go up or the main hallway is to the east.", None, None, None, None, 5, None, None, None, 17, None)
     room_list.append(room)
 
-    room = Room("You walked into the old emergency room.\nThere is one door to the north, east and west.", 5, None, None, None, 8, None, None, 6, None, None)
+    room = Room("You walked into the old emergency room.\nThere is one door to the north and west. There is a locked door to the east.", 5, None, None, None, None, None, None, 6, None, None)
     room_list.append(room)
 
-    room = Room("You are in the janitors closet.\nThere is a door to the east into the old Emergency Room.", None, None, None, None, 7, None, None, None, None, None)
+    room = Room("You are in the janitor's closet.\nThere is a door to the east into the old Emergency Room.", None, None, None, None, 7, None, None, None, None, None)
     room_list.append(room)
 
     room = Room("You walked into the medical supplies closet.\nThere is one door to the west leading back to the Emergency Room.", None, None, None, None, 8, None, None, 7, None, None)
@@ -72,16 +72,25 @@ def main():
     item_list.append(scalpel)
 
     # Blood (Main Hallway 5)
-    blood = Item(5, "blood", "You see blood on the floor in the hallway")
+    blood = Item(5, "blood", "You see blood on the floor in the hallway.")
     item_list.append(blood)
 
     # Chemicals (Janitors Closet 6)
-    chemicals = Item(6, "chemicals", "You see cleaning chemicals on the shelf that could be useful")
+    chemicals = Item(6, "chemicals", "You see cleaning chemicals on the shelf that could be useful.")
     item_list.append(chemicals)
 
     # Phone (Emergency Room 7)
-    phone = Item(7, "phone", "You see a phone that connects to the intercom on the desk in the old emergency room")
+    phone = Item(7, "phone", "You see a phone that connects to the intercom on the desk in the old emergency room.")
     item_list.append(phone)
+
+    #Key (Patient Room 4)
+    key = Item(4, "key", "You see a key labeled janitor's closet.")
+    item_list.append(key)
+
+    print("Welcome to the apocalypse.\nYou decided to make a trip to the hospital to look for supplies.\nOn your way there you realize you've been infected from someone that was hiding their symptoms.")
+    print("Your goal is to find the cure while you still can.")
+    print("Use the command 'get' and then type the item and hit enter to pick it up.\nTo use the item type 'use' and then said item and hit enter.")
+    print("Good luck!")
 
     done = False
     while not done:
@@ -95,8 +104,8 @@ def main():
                 print(item.description)
 
         # User action input
-        action = input("What would you like to do? ")
-        command_words = action.split(" ")
+        userinput = input("What would you like to do? ")
+        command_words = userinput.split(" ")
 
         if userinput.lower() == "north" or userinput.lower() == "n":
             next_room = room_list[current_room].north
@@ -104,7 +113,6 @@ def main():
                 print("You can't go that way.")
             else:
                 current_room = next_room
-
 
         elif userinput.lower() == "east" or userinput.lower() == "e":
             next_room = room_list[current_room].east
@@ -166,7 +174,8 @@ def main():
         elif command_words[0] == "steal":
             if len(command_words) > 1:
                 if command_words[1] == "medicine":
-                    if item_list[1].room == -1:
+                    if item_list[0].room == current_room:
+                        item_list[0].room = -1
                         print()
                         print("You took the medicine off the counter and pocketed it, which will be useful later.")
                     else:
@@ -174,25 +183,47 @@ def main():
             else:
                 print("What would you like to steal?")
 
+        elif command_words[0] == "inventory":
+            for item in item_list:
+                if item.room == -1:
+                    print(item.name)
+
+        elif command_words[0] == "get":
+            for item in item_list:
+                if len(command_words) > 1:
+                    if command_words[1] == item.name and item.room == current_room:
+                        item.room = -1
+                        print()
+                        print ("You've picked it up.")
+
         elif command_words[0] == "drop":
             if len(command_words) > 1:
-                if command_words[1] == "medicine":
-                    if item_list[1].room == -1:
-                        print()
-                        print("You decided to drop the medicine to make room for something else.")
-                    else:
-                        print("You don't have that option.")
+                for item in item_list:
+                    if command_words[1] == item.name and item.room == -1:
+                        item.room = current_room
+                        print("You have dropped that item.")
             else:
                 print("What would you like to drop?")
 
         elif command_words[0] == "use":
             if len(command_words) > 1:
                 if command_words[1] == "medicine":
-                    if item_list[1].room == -1:
+                    if item_list[0].room == -1:
                         print()
                         print("You have decided to use the medicine, it cured you and prevents you from catching the virus again.")
+                        print()
+                        print("Congratulations, you live to see another day.\n Game Over. ")
+                        done = True
                     else:
-                        print("You don't have that option.")
+                        print("You have to get the medicine before you can use it.")
+                elif command_words[1] == "key":
+                    if key.room == -1:
+                        print()
+                        print("You have used the key to unlock the janitor's closet.")
+                        room_list[7].east = 8
+                        room_list[7].description = "You walked into the old emergency room.\nThere is one door to the north and west. There is an unlocked door to the east."
+                    else:
+                        print("You have to get the medicine before you can use it.")
                 else:
                     print("That can't be used.")
             else:
